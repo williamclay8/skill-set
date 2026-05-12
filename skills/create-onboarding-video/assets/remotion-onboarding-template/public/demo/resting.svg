@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1920" viewBox="0 0 1080 1920">
+  <rect width="1080" height="1920" fill="#F5F7FA"/>
+  <rect x="90" y="84" width="900" height="1752" rx="92" fill="#FFFFFF"/>
+  <rect x="138" y="170" width="180" height="26" rx="13" fill="#CBD5E1"/>
+  <circle cx="900" cy="184" r="32" fill="#EEF2F7"/>
+  <text x="138" y="320" font-family="Arial, sans-serif" font-size="54" font-weight="700" fill="#172033">Morning plan</text>
+  <text x="138" y="382" font-family="Arial, sans-serif" font-size="28" fill="#64748B">Focus on the next best action.</text>
+  <rect x="120" y="520" width="840" height="430" rx="54" fill="#FFFFFF"/>
+  <rect x="120" y="520" width="840" height="430" rx="54" fill="none" stroke="#E2E8F0" stroke-width="3"/>
+  <rect x="172" y="584" width="132" height="132" rx="34" fill="#DDEBFF"/>
+  <path d="M226 654h28v-42h30v42h28l-43 46-43-46z" fill="#2F80ED"/>
+  <text x="336" y="625" font-family="Arial, sans-serif" font-size="36" font-weight="700" fill="#172033">Import tasks</text>
+  <text x="336" y="676" font-family="Arial, sans-serif" font-size="25" fill="#64748B">Pull in the useful items and skip the noise.</text>
+  <rect x="172" y="774" width="252" height="78" rx="39" fill="#F1F5F9"/>
+  <text x="212" y="824" font-family="Arial, sans-serif" font-size="27" font-weight="700" fill="#64748B">Maybe later</text>
+  <rect x="650" y="774" width="228" height="78" rx="39" fill="#2F80ED"/>
+  <text x="705" y="824" font-family="Arial, sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">Start</text>
+  <rect x="120" y="1040" width="840" height="150" rx="42" fill="#FFFFFF"/>
+  <rect x="172" y="1086" width="58" height="58" rx="18" fill="#DDEBFF"/>
+  <rect x="256" y="1086" width="420" height="24" rx="12" fill="#CBD5E1"/>
+  <rect x="256" y="1130" width="288" height="18" rx="9" fill="#E2E8F0"/>
+  <rect x="120" y="1230" width="840" height="150" rx="42" fill="#FFFFFF"/>
+  <rect x="172" y="1276" width="58" height="58" rx="18" fill="#ECFDF5"/>
+  <rect x="256" y="1276" width="470" height="24" rx="12" fill="#CBD5E1"/>
+  <rect x="256" y="1320" width="330" height="18" rx="9" fill="#E2E8F0"/>
+</svg>

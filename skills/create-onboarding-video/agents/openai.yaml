@@ -1,0 +1,4 @@
+interface:
+  display_name: "Create Onboarding Video"
+  short_description: "Create polished Remotion onboarding videos"
+  default_prompt: "Use $create-onboarding-video to create a short Remotion onboarding video from supplied iOS app screenshots."

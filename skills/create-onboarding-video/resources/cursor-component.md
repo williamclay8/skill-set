@@ -186,18 +186,19 @@ import { AbsoluteFill, Easing, interpolate, useCurrentFrame } from "remotion";
 import { Pointer, TapDot } from "../components/Cursor";
 import { Slice } from "../components/Slice";
 import { TopCaption } from "../components/Caption";
-import { CAPTION_BAND, COLORS, FONT, p } from "../theme";
+import { CAPTION_BAND, COLORS, FONT } from "../theme";
 
 export const BeatX: React.FC = () => {
   const frame = useCurrentFrame();
 
   // 1. Single source of truth for *when* the tap fires.
-  const tapAt = p(48);
+  const tapAt = 48;
 
   // 2. Center-of-focal-area start point + target end point, both in the
   //    same coord space (slice-local or container-local).
   const sliceWidth = 820;
   const sliceHeight = 808;
+  const crop = { x: 42, y: 150, width: 1095, height: sliceHeight };
   const startX = sliceWidth / 2;
   const startY = sliceHeight / 2;
   const targetX = 220;
@@ -206,13 +207,13 @@ export const BeatX: React.FC = () => {
   // 3. Opacity: fade in BEFORE the move begins so the pointer visibly
   //    materialises at center. Hold full opacity through the tap, then
   //    fade out in place.
-  const fadeIn = interpolate(frame, [p(6), p(16)], [0, 1], {
+  const fadeIn = interpolate(frame, [6, 16], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
   const fadeOut = interpolate(
     frame,
-    [tapAt + p(10), tapAt + p(20)],
+    [tapAt + 10, tapAt + 20],
     [0, 1],
     { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
   );
@@ -221,7 +222,7 @@ export const BeatX: React.FC = () => {
   // 4. ONE straight move from start → target. Single normalised progress
   //    drives both x and y so the path is a true straight line. Move
   //    starts AFTER fade-in completes so the materialise is visible.
-  const moveProgress = interpolate(frame, [p(16), tapAt], [0, 1], {
+  const moveProgress = interpolate(frame, [16, tapAt], [0, 1], {
     easing: Easing.bezier(0.16, 1, 0.3, 1),
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
@@ -232,7 +233,7 @@ export const BeatX: React.FC = () => {
   return (
     <AbsoluteFill
       style={{
-        background: COLORS.bg,
+        background: COLORS.background,
         fontFamily: FONT,
         alignItems: "center",
         justifyContent: "center",
@@ -240,7 +241,13 @@ export const BeatX: React.FC = () => {
       }}
     >
       <div style={{ position: "relative" }}>
-        <Slice src="screen.png" sx={42} sy={150} sw={1095} sh={sliceHeight} width={sliceWidth} />
+        <Slice
+          src="screen.png"
+          crop={crop}
+          sourceWidth={1179}
+          sourceHeight={2556}
+          width={sliceWidth}
+        />
         {/* Always render Pointer + TapDot together at the same coord space. */}
         <Pointer x={pointerX} y={pointerY} opacity={pointerOpacity} />
         <TapDot tapAt={tapAt} x={targetX} y={targetY} size={120} />
@@ -256,15 +263,17 @@ export const BeatX: React.FC = () => {
 When a single beat has two or more taps on the **same UI** (e.g. selecting a segment then tapping the button on the same form), keep **one persistent pointer** that fades in once at center, glides to the first target, then glides **directly** from each target to the next without resetting. Only fade out after the last tap.
 
 ```tsx
-const tapAAt = p(40);
-const tapBAt = p(90);
+const tapAAt = 40;
+const tapBAt = 90;
+const centerX = 410;
+const centerY = 300;
 const A = { x: 600, y: 60 };
 const B = { x: 600, y: 250 };
 
 // ONE pointer. ONE fade-in (at center). ONE fade-out (after last tap).
 const pointerOpacity = interpolate(
   frame,
-  [p(8), p(20), tapBAt + p(15), tapBAt + p(28)],
+  [8, 20, tapBAt + 15, tapBAt + 28],
   [0, 1, 1, 0],
   { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
 );
@@ -274,9 +283,9 @@ const pointerOpacity = interpolate(
 // The "hold" keyframes (target equals previous) keep the pointer parked
 // during the tap ripple before the next move starts.
 const pathFrames = [
-  p(20),            // start of glide-from-center
+  20,               // start of glide-from-center
   tapAAt,           // arrive at A
-  tapAAt + p(20),   // hold at A while ripple settles
+  tapAAt + 20,      // hold at A while ripple settles
   tapBAt,           // arrive at B (single straight glide from A)
 ];
 const pointerX = interpolate(
@@ -315,7 +324,7 @@ If the next interaction lands on a *different* UI (a new screen, a different for
 | Pointer disappears at the moment of tap | Keep the Pointer visible for ~10 frames *after* `tapAt` so the eye sees the contact, then fade it out. |
 | Pointer placed in a different coord space than the TapDot | Both must live inside the same `position: relative` parent and share `x`/`y`. |
 | Adding a Pointer to a purely illustrative beat | Use a `GlowRing` instead. Cursors imply user input. |
-| Using a single keyframe (a straight line from start to target) | Use 2–3 keyframes so the path bends naturally — straight paths feel mechanical. |
+| Adding intermediate points between center and target | Remove them. A move is one straight segment from center to target; use one shared progress value for both `x` and `y`. |
 
 ## When NOT to use this
 
